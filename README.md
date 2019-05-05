@@ -1,2 +1,2 @@
 # StripeDemo
-a demo of stripe 
+an adnroid demo of stripe 
