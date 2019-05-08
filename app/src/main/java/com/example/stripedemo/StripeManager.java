@@ -26,7 +26,6 @@ import com.stripe.android.model.CustomerSource;
 import com.stripe.android.model.PaymentIntent;
 import com.stripe.android.model.PaymentIntentParams;
 import com.stripe.android.model.PaymentMethodCreateParams;
-import com.stripe.android.model.Source;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,9 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
 /**
@@ -140,9 +137,14 @@ public class StripeManager {
                 mCustomer = customer;
                 if (sources.size() > 0) {
                     Log.i("test", "sources  size :" + sources.size());
+
                     Card card = sources.get(0).asCard();
                     Log.i("test", "brand:" + card.getBrand());
                     Log.i("test", "getLast4:" + card.getLast4());
+                    Log.i("test", "getCurrency:" + card.getCurrency());
+                    for (int i = 0; i < sources.size(); i++) {
+                        Log.i("test", i + "--getSourceType:" + sources.get(i).getSourceType());
+                    }
 //                    mCardBrand = card.getBrand();
 //                    mLast4 = card.getLast4();
                 }

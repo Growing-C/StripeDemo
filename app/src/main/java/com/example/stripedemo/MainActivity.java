@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     Source mSelectedSource;
 
+    CreditCardView mCardV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mCardV = findViewById(R.id.card_v);
         mSelectedCardV = findViewById(R.id.selected_card);
         mInputCardV = findViewById(R.id.input_card);
         mStripManager = new StripeManager(this);
@@ -86,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mStripManager.retrieveCustomer();
+        mInputCardV.setCardNumber("4242424242424242");
+
+        mCardV.setCard(new Card("4242424242424242", 11, 20, "423"));
+        mCardV.setSelected(true);
     }
 
 
@@ -251,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 通过card获取到token之后直接支付
+     *
      * @param token
      */
     private void testOnlyPay(String token) {

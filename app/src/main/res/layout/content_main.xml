@@ -74,4 +74,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selected_card" />
+
+    <com.example.stripedemo.CreditCardView
+        android:id="@+id/card_v"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pay" />
+
+
 </android.support.constraint.ConstraintLayout>
