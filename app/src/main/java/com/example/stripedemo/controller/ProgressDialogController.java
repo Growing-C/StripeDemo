@@ -39,6 +39,16 @@ public class ProgressDialogController {
         mProgressFragment.show(mFragmentManager, "progress");
     }
 
+    public void show(String str) {
+        if (mProgressFragment != null && mProgressFragment.getDialog().isShowing()) {//不能用isVisible
+            Log.e("test", "++++++++++++++++++++++++  ");
+            mProgressFragment.dismiss();
+            mProgressFragment = null;
+        }
+        mProgressFragment = ProgressDialogFragment.newInstance(str);
+        mProgressFragment.show(mFragmentManager, "progress");
+    }
+
     public void dismiss() {
         if (mProgressFragment != null) {
             mProgressFragment.dismiss();

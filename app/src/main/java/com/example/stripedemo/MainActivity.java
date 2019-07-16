@@ -1,6 +1,7 @@
 package com.example.stripedemo;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         mCardV = findViewById(R.id.card_v);
         mSelectedCardV = findViewById(R.id.selected_card);
         mInputCardV = findViewById(R.id.input_card);
-        mStripManager = new StripeManager(this);
+        mStripManager = StripeManager.getInstance(this);
 
         mErrorDialogHandler = new ErrorDialogHandler(getSupportFragmentManager());
         mProgressDialogController = new ProgressDialogController(
@@ -113,9 +114,65 @@ public class MainActivity extends AppCompatActivity {
             case R.id.pay:
                 pay();
                 break;
+            case R.id.payment:
+                createPayment();
+                break;
+            case R.id.test_return_uri:
+//                schema://host:port/path/query
+                Uri uri = Uri.parse("stripe_auth_return://stripe_demo");
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 使用paymentIntent支付流程
+     * <p>
+     * 1.Create a PaymentIntent and make its client secret accessible to your application
+     * 2.Collect card information and create a PaymentMethodCreateParams object
+     * 3.Confirm the PaymentIntent
+     * 4.Redirect and authenticate the payment if necessary
+     */
+    private void createPayment() {
+        if (mSelectedSource == null) {
+            mErrorDialogHandler.show("No Pay source selected");
+            return;
+        }
+        mProgressDialogController.show("Payment支付开始");
+        mAction.addSubscription(ApiWrapper.getInstance().createPaymentIntent("CNY", 500),
+                new DisposableObserver<ResponseBody>() {
+                    @Override
+                    public void onNext(ResponseBody o) {
+                        try {
+                            String responseStr = o.string();
+                            Log.i("test", responseStr);
+                            if (responseStr.startsWith("Error: ")) {
+                                mErrorDialogHandler.show(responseStr);
+                            } else {
+
+
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("test", e.toString());
+                        mErrorDialogHandler.show(e.toString());
+                        mProgressDialogController.dismiss();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("test", "onComplete");
+                        mProgressDialogController.dismiss();
+                    }
+                });
+
     }
 
     @Override

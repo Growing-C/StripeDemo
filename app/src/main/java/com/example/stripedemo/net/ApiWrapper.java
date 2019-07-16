@@ -39,4 +39,8 @@ public class ApiWrapper {
     public Observable<ResponseBody> createCharge(String cus, String sourceId, int amount) {
         return mService.createCharge(cus, sourceId, amount).compose(RxUtil.<ResponseBody>applySchedulersJobUI());
     }
+
+    public Observable<ResponseBody> createPaymentIntent(String currency, int amount) {
+        return mService.createPaymentIntent(currency, amount).compose(RxUtil.<ResponseBody>applySchedulersJobUI());
+    }
 }

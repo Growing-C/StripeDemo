@@ -26,6 +26,7 @@ public interface StripeService {
                                           @Query("amount") int amount);
 
 
-    @POST("create_intent")
-    Observable<ResponseBody> createPaymentIntent(@FieldMap Map<String, Object> params);
+    @POST("createPaymentIntentForAutoConfirm")
+    Observable<ResponseBody> createPaymentIntent(@Query("currency") String currency,
+                                                 @Query("amount") int amount);
 }
